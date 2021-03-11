@@ -5,46 +5,28 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
-public class ApiConnection {
-    public static void listFolderStructure(String username, String password,
-                                           String host, int port, String command) throws Exception {
+public class ThreadSsh extends Thread{
 
-        Session session = null;
-        ChannelExec channel = null;
+    private String host;
 
-        try {
-            session = new JSch().getSession(username, host, port);
-            session.setPassword(password);
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
-
-            channel = (ChannelExec) session.openChannel("exec");
-            channel.setCommand(command);
-            ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-            channel.setOutputStream(responseStream);
-            channel.connect();
-
-            while (channel.isConnected()) {
-                Thread.sleep(100);
-            }
-
-            String responseString = new String(responseStream.toByteArray());
-            System.out.println(responseString);
-        } finally {
-            if (session != null) {
-                session.disconnect();
-            }
-            if (channel != null) {
-                channel.disconnect();
-            }
-        }
+    public String getHost() {
+        return host;
     }
 
-    public  void abc() {
-        String host="172.16.10.101";
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        System.out.println("Thread running "+ this.getName());
+        String host=this.host;
         String user="root";
         String password="123";
         String command1="df -h | grep -w '/dev/sda1'| awk '{print $(NF-1)}' | rev | cut -c 2-| rev";
@@ -55,6 +37,7 @@ public class ApiConnection {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
         try{
 
@@ -64,7 +47,11 @@ public class ApiConnection {
             Session session=jsch.getSession(user, host, 22);
             session.setPassword(password);
             session.setConfig(config);
+            LocalDateTime now1 = LocalDateTime.now();
+            System.out.println(this.getName() + dtf.format(now1));
             session.connect();
+
+
             System.out.println("Connected");
 
             Channel channel=session.openChannel("exec");
@@ -91,10 +78,11 @@ public class ApiConnection {
             session.disconnect();
             System.out.println("DONE");
         }catch(Exception e){
-            System.out.println("TIME OUT");
+             LocalDateTime now1 = LocalDateTime.now();
+            System.out.println(this.getName() + dtf.format(now1));
+
+            System.out.println("TIME OUT "+ this.getName());
             e.printStackTrace();
         }
-
     }
-
 }
