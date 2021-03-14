@@ -35,7 +35,7 @@ public class ChecklistGroupController {
     }
 
     @DeleteMapping("/delete")
-    private ResponseEntity<JsonResult> deleteById(@RequestParam(name = "id") Long id){
+    private ResponseEntity<JsonResult> deleteById(@RequestParam(name = "id") Integer id){
         Boolean deleted=checklistGroupService.deleteById(id);
         if(deleted)
             return JsonResult.deleted();

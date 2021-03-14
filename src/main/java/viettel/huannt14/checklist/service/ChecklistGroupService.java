@@ -7,7 +7,7 @@ import java.util.List;
 public interface ChecklistGroupService {
     ChecklistGroup save(ChecklistGroup checklistGroup);
 
-    Boolean deleteById(Long id);
+    Boolean deleteById(Integer id);
 
     List<ChecklistGroup> getAll();
 }

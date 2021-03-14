@@ -8,7 +8,7 @@ import java.util.List;
 public interface ChecklistHistoryService {
     ChecklistHistory save(ChecklistHistory checklistHistory);
 
-    Boolean deleteById(Long id);
+    Boolean deleteById(Integer id);
 
     List<ChecklistHistory> getAll();
 }

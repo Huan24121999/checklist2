@@ -8,7 +8,7 @@ import java.util.List;
 public interface ChecklistItemService {
     ChecklistItem save(ChecklistItem checklistItem);
 
-    Boolean deleteById(Long id);
+    Boolean deleteById(Integer id);
 
     List<ChecklistItem> getAll();
 }

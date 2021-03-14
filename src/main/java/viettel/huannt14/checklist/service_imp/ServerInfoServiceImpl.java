@@ -29,7 +29,7 @@ public class ServerInfoServiceImpl implements ServerInfoService {
     }
 
     @Override
-    public Boolean deleteById(Long serverId) {
+    public Boolean deleteById(Integer serverId) {
         try{
             serverInfoRepo.deleteById(serverId);
             return true;

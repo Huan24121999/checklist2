@@ -21,7 +21,7 @@ public class ApiConnection {
             session.setConfig("StrictHostKeyChecking", "no");
             session.connect();
 
-            channel = (ChannelExec) session.openChannel("exec");
+            channel = (ChannelExec) session.openChannel("sh");
             channel.setCommand(command);
             ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
             channel.setOutputStream(responseStream);
@@ -43,8 +43,8 @@ public class ApiConnection {
         }
     }
 
-    public  void abc() {
-        String host="172.16.10.101";
+    public  void abc(String host2) {
+        String host=host2;
         String user="root";
         String password="123";
         String command1="df -h | grep -w '/dev/sda1'| awk '{print $(NF-1)}' | rev | cut -c 2-| rev";

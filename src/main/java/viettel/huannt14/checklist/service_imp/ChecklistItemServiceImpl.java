@@ -29,7 +29,7 @@ public class ChecklistItemServiceImpl implements ChecklistItemService {
     }
 
     @Override
-    public Boolean deleteById(Long id) {
+    public Boolean deleteById(Integer id) {
         try{
             checklistItemRepo.deleteById(id);
             return true;

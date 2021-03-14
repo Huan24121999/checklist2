@@ -28,7 +28,7 @@ public class ChecklistHistoryServiceImpl implements ChecklistHistoryService {
     }
 
     @Override
-    public Boolean deleteById(Long id) {
+    public Boolean deleteById(Integer id) {
         try{
             checklistHistoryRepo.deleteById(id);
             return true;

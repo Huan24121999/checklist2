@@ -29,7 +29,7 @@ public class ChecklistGroupServiceImpl implements ChecklistGroupService {
     }
 
     @Override
-    public Boolean deleteById(Long id) {
+    public Boolean deleteById(Integer id) {
         try{
             checklistGroupRepo.deleteById(id);
             return true;

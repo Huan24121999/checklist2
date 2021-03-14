@@ -37,7 +37,7 @@ public class ServerInfoController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<JsonResult> delete(@RequestParam(name = "id") Long id){
+    public ResponseEntity<JsonResult> delete(@RequestParam(name = "id") Integer id){
         Boolean deleted= serverInfoService.deleteById(id);
         if(deleted)
             return JsonResult.deleted();

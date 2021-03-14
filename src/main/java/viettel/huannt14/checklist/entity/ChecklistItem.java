@@ -1,11 +1,15 @@
 package viettel.huannt14.checklist.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "checklist_item")
 public class ChecklistItem {
 
@@ -13,20 +17,17 @@ public class ChecklistItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     private String name;
 
     @Column(name = "type_check")
-    private String typeCheck;
+    private Integer typeCheck;
 
     private String action;
 
     @Column(name = "value_pass")
     private String valuePass;
-
-    @Column(name = "server_check")
-    private String serverCheck;
 
     @Column(name = "is_check")
     private Boolean isCheck;
@@ -36,4 +37,8 @@ public class ChecklistItem {
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
     private ChecklistGroup checklistGroup;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "server_id")
+    private ServerInfo server;
 }

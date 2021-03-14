@@ -35,7 +35,7 @@ public class ChecklistHistoryController {
     }
 
     @DeleteMapping("/delete")
-    private ResponseEntity<JsonResult> deleteById(@RequestParam(name = "id") Long id){
+    private ResponseEntity<JsonResult> deleteById(@RequestParam(name = "id") Integer id){
         Boolean deleted= checklistHistoryService.deleteById(id);
         if(deleted)
             return JsonResult.deleted();
