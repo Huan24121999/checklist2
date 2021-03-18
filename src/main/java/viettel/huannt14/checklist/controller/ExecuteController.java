@@ -23,7 +23,7 @@ public class ExecuteController {
     @Autowired
     private ExecuteService executeService;
 
-    @GetMapping("/")
+    @PostMapping("/")
     public ResponseEntity<JsonResult> execute(@RequestBody List<Integer> ids){
         return JsonResult.found(executeService.execute(ids));
     }

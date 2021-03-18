@@ -38,7 +38,7 @@ public class ChecklistItem {
     @JoinColumn(name = "group_id")
     private ChecklistGroup checklistGroup;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "server_id")
     private ServerInfo server;
 }

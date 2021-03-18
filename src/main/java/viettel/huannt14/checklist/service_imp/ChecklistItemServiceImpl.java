@@ -9,6 +9,7 @@ import viettel.huannt14.checklist.repository.ChecklistItemRepo;
 import viettel.huannt14.checklist.service.ChecklistItemService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChecklistItemServiceImpl implements ChecklistItemService {
@@ -46,6 +47,16 @@ public class ChecklistItemServiceImpl implements ChecklistItemService {
         }catch (Exception ex){
             logger.error(ex.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public Optional<ChecklistItem> findById(Integer id) {
+        try{
+            return checklistItemRepo.findById(id);
+        }catch (Exception ex){
+            logger.error(ex.getMessage());
+            return Optional.empty();
         }
     }
 }
