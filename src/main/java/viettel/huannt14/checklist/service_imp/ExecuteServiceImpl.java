@@ -5,13 +5,12 @@ import org.springframework.stereotype.Service;
 import viettel.huannt14.checklist.common.ExecuteHandle;
 import viettel.huannt14.checklist.common.RestApiExecute;
 import viettel.huannt14.checklist.common.SshExecute;
-import viettel.huannt14.checklist.entity.CheckType;
-import viettel.huannt14.checklist.entity.ChecklistItem;
-import viettel.huannt14.checklist.entity.ResultItem;
-import viettel.huannt14.checklist.entity.ServerInfo;
+import viettel.huannt14.checklist.entity.*;
 import viettel.huannt14.checklist.repository.ChecklistItemRepo;
 import viettel.huannt14.checklist.service.ExecuteService;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;

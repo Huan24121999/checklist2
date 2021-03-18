@@ -16,7 +16,7 @@ public class ChecklistHistory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private Integer result;
+    private String  result;
 
     @Column(name = "start_time")
     private Timestamp startTime;
@@ -27,8 +27,4 @@ public class ChecklistHistory {
     private String detail;
 
     private String username;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_id")
-    private ChecklistItem checklistItem;
 }
