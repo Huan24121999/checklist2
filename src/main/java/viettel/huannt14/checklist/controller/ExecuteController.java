@@ -1,5 +1,6 @@
 package viettel.huannt14.checklist.controller;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import viettel.huannt14.checklist.service.ChecklistHistoryService;
 import viettel.huannt14.checklist.service.ExecuteService;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -38,7 +40,8 @@ public class ExecuteController {
                 countPassed++;
         }
         checklistHistory.setResult(countPassed+"/"+ids.size());
-        checklistHistory.setDetail(resultItemList.toString());
+        String jsonString = new Gson().toJson(resultItemList, ArrayList.class);
+        checklistHistory.setDetail(jsonString);
         checklistHistory.setEndTime(new Timestamp(System.currentTimeMillis()));
         return Optional.ofNullable(checklistHistoryService.save(checklistHistory))
                 .map(checklistHistoryResult ->{
