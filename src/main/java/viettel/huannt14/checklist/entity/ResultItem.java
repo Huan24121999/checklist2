@@ -8,9 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResultItem {
-    private Integer itemId;
 
+    private String name;
+    
+    private String groupCheck;
+    
     private Boolean isPassed;
 
-    private String detail;
+    private String requiredResult;
+    
+    private String result;
 }

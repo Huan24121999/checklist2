@@ -16,18 +16,21 @@ public class RestApiExecute implements ExecuteHandle{
         for (ChecklistItem ch:checklistItems
              ) {
             ResultItem resultItem =new ResultItem();
-            resultItem.setItemId(ch.getId());
+            resultItem.setName(ch.getName());
             resultItem.setIsPassed(false);
+            resultItem.setGroupCheck(ch.getChecklistGroup().getName());
+            resultItem.setRequiredResult(ch.getValuePass());
             try {
                 RestTemplate restTemplate = new RestTemplate();
                 String url = ch.getAction();
                 RestResponse result = restTemplate.getForObject(url, RestResponse.class);
-                if(result.getPassed())
+                if(result.getPassed()) {
                     resultItem.setIsPassed(true);
-                resultItem.setDetail(result.getDescribe());
+                }
+                resultItem.setResult(result.getDescribe());
             }catch(Exception ex){
                 System.out.println(ex.getMessage());
-                resultItem.setDetail(ex.getMessage());
+                resultItem.setResult(ex.getMessage());
             }
             resultItemList.add(resultItem);
         }

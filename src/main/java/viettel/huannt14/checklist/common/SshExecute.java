@@ -26,29 +26,31 @@ public class SshExecute implements ExecuteHandle {
             for (ChecklistItem checklistItem : checklistItems
             ) {
                 ResultItem resultItem = new ResultItem();
-                resultItem.setItemId(checklistItem.getId());
+                resultItem.setName(checklistItem.getName());
+                resultItem.setRequiredResult(checklistItem.getValuePass());
+                resultItem.setGroupCheck(checklistItem.getChecklistGroup().getName());
                 resultItem.setIsPassed(false);
                 try {
                     String resultExecuted = executeCommand(checklistItem.getAction());
                     if (resultExecuted == null && checklistItem.getValuePass() == null) {
                         resultItem.setIsPassed(true);
                     } else if (resultExecuted == null && checklistItem.getValuePass() != null) {
-                        resultItem.setDetail("null");
+                        resultItem.setResult("Empty");
                     } else if (resultExecuted.startsWith("Error")) {
-                        resultItem.setDetail(resultExecuted);
+                        resultItem.setResult(resultExecuted);
                     } else {
                         Boolean checkCompare = compareData.compare(resultExecuted, checklistItem.getValuePass());
                         if (checkCompare) {
                             resultItem.setIsPassed(true);
                         }
-                        resultItem.setDetail(resultExecuted);
+                        resultItem.setResult(resultExecuted);
                     }
                 } catch (JSchException e) {
                     //e.printStackTrace();
-                    resultItem.setDetail("Error: " + e.getMessage());
+                    resultItem.setResult("Error: " + e.getMessage());
                 } catch (IOException e) {
                     //e.printStackTrace();
-                    resultItem.setDetail("Error: " + e.getMessage());
+                    resultItem.setResult("Error: " + e.getMessage());
                 }
                 resultItemList.add(resultItem);
             }
@@ -57,9 +59,11 @@ public class SshExecute implements ExecuteHandle {
             for (ChecklistItem checklistItem : checklistItems
             ) {
                 ResultItem resultItem = new ResultItem();
-                resultItem.setItemId(checklistItem.getId());
+                resultItem.setName(checklistItem.getName());
+                resultItem.setGroupCheck(checklistItem.getChecklistGroup().getName());
+                resultItem.setRequiredResult(checklistItem.getValuePass());
                 resultItem.setIsPassed(false);
-                resultItem.setDetail("Error: " + e.getMessage());
+                resultItem.setResult("Error: " + e.getMessage());
                 resultItemList.add(resultItem);
             }
         }

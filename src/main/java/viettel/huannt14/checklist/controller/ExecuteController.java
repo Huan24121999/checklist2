@@ -8,6 +8,7 @@ import viettel.huannt14.checklist.common.JsonResult;
 import viettel.huannt14.checklist.entity.ChecklistHistory;
 import viettel.huannt14.checklist.entity.ChecklistItem;
 import viettel.huannt14.checklist.entity.ResultItem;
+import viettel.huannt14.checklist.repository.ChecklistHistoryRepo;
 import viettel.huannt14.checklist.service.ChecklistHistoryService;
 import viettel.huannt14.checklist.service.ExecuteService;
 
@@ -26,10 +27,14 @@ public class ExecuteController {
     private ChecklistHistoryService checklistHistoryService;
 
     @Autowired
+    private ChecklistHistoryRepo checklistHistoryRepo;
+
+    @Autowired
     private ExecuteService executeService;
 
     @PostMapping("/")
     public ResponseEntity<JsonResult> execute(@RequestBody List<Integer> ids){
+        //return JsonResult.success(checklistHistoryRepo.findById(12));
         ChecklistHistory checklistHistory= new ChecklistHistory();
         checklistHistory.setStartTime(new Timestamp(System.currentTimeMillis()));
         List<ResultItem> resultItemList= executeService.execute(ids);
@@ -46,7 +51,7 @@ public class ExecuteController {
         return Optional.ofNullable(checklistHistoryService.save(checklistHistory))
                 .map(checklistHistoryResult ->{
                     System.out.println(checklistHistoryResult);
-                    return JsonResult.found(checklistHistoryResult);
+                    return JsonResult.success(checklistHistoryResult);
                 })
                 .orElse(JsonResult.saveError("CheckList History"));
 

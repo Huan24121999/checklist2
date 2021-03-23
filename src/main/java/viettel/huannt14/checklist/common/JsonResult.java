@@ -55,4 +55,29 @@ public class JsonResult {
         return ResponseEntity.badRequest().contentType(MediaType.valueOf(CONTENT_TYPE)).body(JsonResult.build("fail", mess));
     }
 
+
+    public static ResponseEntity<JsonResult> success(Object data) {
+        return ResponseEntity.ok(JsonResult.build("success", data));
+    }
+
+    public static ResponseEntity<JsonResult> idNotFound() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JsonResult.build("not found", "id is not exist"));
+    }
+
+    public static ResponseEntity<JsonResult> parentNotFound(String parent) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JsonResult.build("not found", parent + " is not exist"));
+    }
+
+
+    public static ResponseEntity<JsonResult> serverError(String mess) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JsonResult.build("error", mess));
+    }
+
+    @Deprecated
+    public static ResponseEntity<JsonResult> page(int totalPages, Object data) {
+        return ResponseEntity.ok(JsonResult.build(totalPages + "", data));
+    }
+
+
+
 }
