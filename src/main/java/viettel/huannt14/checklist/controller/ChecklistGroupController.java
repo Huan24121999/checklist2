@@ -42,7 +42,7 @@ public class ChecklistGroupController {
         return JsonResult.saveError("ChecklistGroup");
     }
 
-    @GetMapping("/get-all")
+    @GetMapping("/find-all")
     private ResponseEntity<JsonResult> getAll(){
         return Optional.ofNullable(checklistGroupService.getAll())
                 .map(checklistGroups -> {

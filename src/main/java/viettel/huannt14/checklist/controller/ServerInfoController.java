@@ -44,7 +44,7 @@ public class ServerInfoController {
         return JsonResult.saveError("ServerInfo");
     }
 
-    @GetMapping("get-all")
+    @GetMapping("find-all")
     public ResponseEntity<JsonResult> getAll(){
         return Optional.ofNullable(serverInfoService.getAll())
                 .map(serverInfos -> {

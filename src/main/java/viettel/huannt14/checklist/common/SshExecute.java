@@ -9,6 +9,8 @@ import viettel.huannt14.checklist.service_imp.CompareString;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,11 @@ public class SshExecute implements ExecuteHandle {
 
     //to execute for a group checklist item on the same server
     public List<ResultItem> handle(ServerInfo serverInfo, List<ChecklistItem> checklistItems) {
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now1 = LocalDateTime.now();
+        System.out.println(serverInfo.getName()+ "Handle: ============================" +dtf.format(now1));
+
         CompareData compareData = new CompareString();
 
         List<ResultItem> resultItemList = new ArrayList<>();
@@ -47,15 +54,15 @@ public class SshExecute implements ExecuteHandle {
                     }
                 } catch (JSchException e) {
                     //e.printStackTrace();
-                    resultItem.setResult("Error: " + e.getMessage());
+                    resultItem.setResult("Error:" + e.getMessage().split("Exception:")[1]);
                 } catch (IOException e) {
                     //e.printStackTrace();
-                    resultItem.setResult("Error: " + e.getMessage());
+                    resultItem.setResult("Error:" + e.getMessage().split("Exception:")[1]);
                 }
                 resultItemList.add(resultItem);
             }
         } catch (JSchException e) {
-            //e.printStackTrace();
+//            e.printStackTrace();
             for (ChecklistItem checklistItem : checklistItems
             ) {
                 ResultItem resultItem = new ResultItem();
@@ -63,11 +70,16 @@ public class SshExecute implements ExecuteHandle {
                 resultItem.setGroupCheck(checklistItem.getChecklistGroup().getName());
                 resultItem.setRequiredResult(checklistItem.getValuePass());
                 resultItem.setIsPassed(false);
-                resultItem.setResult("Error: " + e.getMessage());
+                resultItem.setResult("Error: " + e.getMessage().split("Exception:")[1]);
                 resultItemList.add(resultItem);
             }
         }
         disconnectSsh();
+
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now2 = LocalDateTime.now();
+        System.out.println(serverInfo.getName()+"Handle finish: ============================"+dtf.format(now2));
+
         return resultItemList;
     }
 
@@ -78,6 +90,7 @@ public class SshExecute implements ExecuteHandle {
         java.util.Properties config = new java.util.Properties();
         config.put("StrictHostKeyChecking", "no");
         session.setConfig(config);
+        //session.setTimeout(10000);
         session.connect();
     }
 

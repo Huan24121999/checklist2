@@ -13,6 +13,8 @@ import viettel.huannt14.checklist.service.ChecklistHistoryService;
 import viettel.huannt14.checklist.service.ExecuteService;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,11 @@ public class ExecuteController {
 
     @PostMapping("/")
     public ResponseEntity<JsonResult> execute(@RequestBody List<Integer> ids){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now1 = LocalDateTime.now();
+        System.out.println("======================================================================================================");
+
+        System.out.println("Controller: ============================"+dtf.format(now1));
         //return JsonResult.success(checklistHistoryRepo.findById(12));
         ChecklistHistory checklistHistory= new ChecklistHistory();
         checklistHistory.setStartTime(new Timestamp(System.currentTimeMillis()));
