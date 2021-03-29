@@ -59,4 +59,13 @@ public class ChecklistItemController {
                 })
                 .orElse(JsonResult.notFound("Checklist Item"));
     }
+
+    @GetMapping("/find-by-server-id")
+    private ResponseEntity<JsonResult> findByServerId(@RequestParam(name = "server-id")Integer serverId){
+        return Optional.ofNullable(checklistItemService.findByServerId(serverId))
+                .map(checklistItems -> {
+                    return JsonResult.found(checklistItems);
+                })
+                .orElse(JsonResult.notFound("Checklist Item"));
+    }
 }

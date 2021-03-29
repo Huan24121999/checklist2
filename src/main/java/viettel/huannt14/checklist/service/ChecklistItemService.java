@@ -14,4 +14,6 @@ public interface ChecklistItemService {
     List<ChecklistItem> getAll();
 
     Optional<ChecklistItem> findById(Integer id);
+
+    List<ChecklistItem> findByServerId(Integer serverId);
 }

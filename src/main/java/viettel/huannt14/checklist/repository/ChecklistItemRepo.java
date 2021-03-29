@@ -15,4 +15,6 @@ public interface ChecklistItemRepo extends JpaRepository<ChecklistItem,Integer> 
 
     @Query(value = "select a from ChecklistItem as a ORDER BY a.checklistGroup.id")
     List<ChecklistItem> findAll();
+
+    List<ChecklistItem> findAllByServerId(Integer serverId);
 }

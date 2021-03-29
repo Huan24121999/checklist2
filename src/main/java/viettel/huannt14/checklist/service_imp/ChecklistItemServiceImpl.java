@@ -59,4 +59,14 @@ public class ChecklistItemServiceImpl implements ChecklistItemService {
             return Optional.empty();
         }
     }
+
+    @Override
+    public List<ChecklistItem> findByServerId(Integer serverId) {
+        try{
+            return checklistItemRepo.findAllByServerId(serverId);
+        }catch (Exception ex){
+            logger.error(ex.getMessage());
+            return null;
+        }
+    }
 }
