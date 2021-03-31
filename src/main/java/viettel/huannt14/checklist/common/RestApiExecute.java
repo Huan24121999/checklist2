@@ -40,9 +40,3 @@ public class RestApiExecute implements ExecuteHandle{
 }
 // url= localhost:8080 /api/v1/....
 
-class Test2{
-    public static void main(String[] args) {
-        RestApiExecute restApiExecute= new RestApiExecute();
-        restApiExecute.handle(null,null);
-    }
-}

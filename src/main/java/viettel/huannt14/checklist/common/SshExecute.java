@@ -38,19 +38,19 @@ public class SshExecute implements ExecuteHandle {
                 resultItem.setGroupCheck(checklistItem.getChecklistGroup().getName());
                 resultItem.setIsPassed(false);
                 try {
-                    String resultExecuted = executeCommand(checklistItem.getAction());
-                    if (resultExecuted == null && checklistItem.getValuePass() == null) {
+                    String ExecutedResult = executeCommand(checklistItem.getAction());
+                    if (ExecutedResult == null && checklistItem.getValuePass() == null) {
                         resultItem.setIsPassed(true);
-                    } else if (resultExecuted == null && checklistItem.getValuePass() != null) {
+                    } else if (ExecutedResult == null && checklistItem.getValuePass() != null) {
                         resultItem.setResult("Empty");
-                    } else if (resultExecuted.startsWith("Error")) {
-                        resultItem.setResult(resultExecuted);
+                    } else if (ExecutedResult.startsWith("Error")) {
+                        resultItem.setResult(ExecutedResult);
                     } else {
-                        Boolean checkCompare = compareData.compare(resultExecuted, checklistItem.getValuePass());
+                        Boolean checkCompare = compareData.compare(ExecutedResult, checklistItem.getValuePass());
                         if (checkCompare) {
                             resultItem.setIsPassed(true);
                         }
-                        resultItem.setResult(resultExecuted);
+                        resultItem.setResult(ExecutedResult);
                     }
                 } catch (JSchException e) {
                     //e.printStackTrace();
