@@ -4,6 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Result of execution, using to store each record of output's each checklist item
+ * after execution
+ *
+ * @author huannt14
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

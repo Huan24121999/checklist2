@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * Checklist item (Test case) to check
+ *
+ * @author huannt14
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -29,8 +34,7 @@ public class ChecklistItem {
     @Column(name = "value_pass")
     private String valuePass;
 
-    @Column(name = "is_check")
-    private Boolean isCheck;
+    private String operator;
 
     private String description;
 

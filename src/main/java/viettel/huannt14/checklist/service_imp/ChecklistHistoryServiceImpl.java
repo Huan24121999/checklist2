@@ -10,6 +10,11 @@ import viettel.huannt14.checklist.service.ChecklistHistoryService;
 
 import java.util.List;
 
+/**
+ * Implementation of ChecklistHistoryService
+ *
+ * @author huannt14
+ */
 @Service
 public class ChecklistHistoryServiceImpl implements ChecklistHistoryService {
     private static final Logger logger= LoggerFactory.getLogger(ChecklistGroupServiceImpl.class);
@@ -17,6 +22,12 @@ public class ChecklistHistoryServiceImpl implements ChecklistHistoryService {
     @Autowired
     private ChecklistHistoryRepo checklistHistoryRepo;
 
+    /**
+     * save a Checklist History
+     *
+     * @param checklistHistory Checklist history needed to save on database
+     * @return stored Checklist History
+     */
     @Override
     public ChecklistHistory save(ChecklistHistory checklistHistory) {
         try{
@@ -27,6 +38,12 @@ public class ChecklistHistoryServiceImpl implements ChecklistHistoryService {
         }
     }
 
+    /**
+     * delete a checklist history by id's history
+     *
+     * @param id id's history
+     * @return true if deleted, otherwise return false
+     */
     @Override
     public Boolean deleteById(Integer id) {
         try{
@@ -38,8 +55,13 @@ public class ChecklistHistoryServiceImpl implements ChecklistHistoryService {
         }
     }
 
+    /**
+     * find all checklist exist history
+     *
+     * @return a list has all checklist histories on db
+     */
     @Override
-    public List<ChecklistHistory> getAll() {
+    public List<ChecklistHistory> findAll() {
         try{
             return checklistHistoryRepo.findAll();
         }catch (Exception ex){

@@ -3,24 +3,25 @@ package viettel.huannt14.checklist.controller;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import viettel.huannt14.checklist.common.JsonResult;
 import viettel.huannt14.checklist.entity.ChecklistHistory;
-import viettel.huannt14.checklist.entity.ChecklistItem;
 import viettel.huannt14.checklist.entity.ResultItem;
 import viettel.huannt14.checklist.repository.ChecklistHistoryRepo;
 import viettel.huannt14.checklist.service.ChecklistHistoryService;
 import viettel.huannt14.checklist.service.ExecuteService;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.jar.JarEntry;
 
+/**
+ * controller handle http request to execute checklist items
+ */
 @RestController
 @RequestMapping("/api/v1/private/execute")
 public class ExecuteController {
@@ -34,17 +35,21 @@ public class ExecuteController {
     @Autowired
     private ExecuteService executeService;
 
+    /**
+     * execute checklist items by list id of checklist items
+     *
+     * @param ids list id of checklist items needed to execute
+     * @return a Executive History to represent for result of execution
+     */
     @PostMapping("/")
     public ResponseEntity<JsonResult> execute(@RequestBody List<Integer> ids){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now1 = LocalDateTime.now();
-        System.out.println("======================================================================================================");
-
-        System.out.println("Controller: ============================"+dtf.format(now1));
-        //return JsonResult.success(checklistHistoryRepo.findById(12));
+        // init checklist history to store result of execution
         ChecklistHistory checklistHistory= new ChecklistHistory();
         checklistHistory.setStartTime(new Timestamp(System.currentTimeMillis()));
+        // call execution service to execute
         List<ResultItem> resultItemList= executeService.execute(ids);
+
+        //count passed test case( checklist item)
         int countPassed=0;
         for (ResultItem result:resultItemList
              ) {
@@ -52,8 +57,9 @@ public class ExecuteController {
                 countPassed++;
         }
         checklistHistory.setResult(countPassed+"/"+ids.size());
-        String jsonString = new Gson().toJson(resultItemList, ArrayList.class);
-        checklistHistory.setDetail(jsonString);
+        // convert list result to Json, it's help easily read this field at frontend
+        String resultJson = new Gson().toJson(resultItemList, ArrayList.class);
+        checklistHistory.setDetail(resultJson);
         checklistHistory.setEndTime(new Timestamp(System.currentTimeMillis()));
         return Optional.ofNullable(checklistHistoryService.save(checklistHistory))
                 .map(checklistHistoryResult ->{

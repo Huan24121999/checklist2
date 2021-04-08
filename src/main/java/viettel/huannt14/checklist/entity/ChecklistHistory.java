@@ -5,6 +5,11 @@ import lombok.Data;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * History of each execution
+ *
+ * @author huannt14
+ */
 @Entity
 @Data
 @Table(name = "checklist_history")

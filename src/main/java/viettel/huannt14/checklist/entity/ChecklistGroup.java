@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * Group of Checklist items
+ *
+ * @author huannt14
+ */
 @Entity
 @Data
 @Table(name = "checklist_group")
@@ -23,6 +28,4 @@ public class ChecklistGroup {
 
     private String description;
 
-    @Column(name = "is_check")
-    private Boolean isCheck;
 }

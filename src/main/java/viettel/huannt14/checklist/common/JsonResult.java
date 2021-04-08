@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 /**
  * Common Object to return Http Response
  *
- * @author HuanNT
+ * @author huannt14
  */
 
 @Data
@@ -77,7 +77,5 @@ public class JsonResult {
     public static ResponseEntity<JsonResult> page(int totalPages, Object data) {
         return ResponseEntity.ok(JsonResult.build(totalPages + "", data));
     }
-
-
 
 }

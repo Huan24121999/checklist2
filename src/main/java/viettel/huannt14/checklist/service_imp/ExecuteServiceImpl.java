@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import viettel.huannt14.checklist.common.ExecuteHandle;
-import viettel.huannt14.checklist.common.RestApiExecute;
-import viettel.huannt14.checklist.common.SshExecute;
+import viettel.huannt14.checklist.common.HandleExecution;
+import viettel.huannt14.checklist.common.RestApiExecution;
+import viettel.huannt14.checklist.common.SshExecution;
 import viettel.huannt14.checklist.entity.CheckType;
 import viettel.huannt14.checklist.entity.ChecklistItem;
 import viettel.huannt14.checklist.entity.ResultItem;
@@ -19,6 +19,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Implementation of ExecuteService
+ *
+ * @author huannt14
+ */
 @Service
 public class ExecuteServiceImpl implements ExecuteService {
 
@@ -27,14 +32,23 @@ public class ExecuteServiceImpl implements ExecuteService {
     @Autowired
     private ChecklistItemRepo checklistItemRepo;
 
-    private ExecuteHandle executeHandle = null;
+    private HandleExecution handleExecution = null;
 
+    /**
+     * execute list test cases ( list items) by id's items
+     *
+     * @param itemIds list id's items need to execute
+     * @return a list has executed results
+     */
     @Override
     public List<ResultItem> execute(List<Integer> itemIds) {
+        // find checklist items on db by list input id's items
         List<ChecklistItem> checklistItems = checklistItemRepo.findById(itemIds);
-        List<List<ChecklistItem>> checkList = new ArrayList<>();
+        // init a list contain list of items
+        List<List<ChecklistItem>> listItemList = new ArrayList<>();
         int itemSize = checklistItems.size();
 
+        // divide checklist items to lists(groups) base on type of check and server check
         for (int i = 0; i < itemSize; i++) {
             List<ChecklistItem> checklistItemsTemp = new ArrayList<>();
             ChecklistItem previous = checklistItems.get(i);
@@ -49,15 +63,21 @@ public class ExecuteServiceImpl implements ExecuteService {
                     checklistItemsTemp.add(recentItem);
                 }
             }
-            checkList.add(checklistItemsTemp);
+            listItemList.add(checklistItemsTemp);
             if (j == itemSize)
                 break;
         }
-        System.out.println("none");
-        return executeThread(checkList);
+        return executeListItemList(listItemList);
     }
 
-    private List<ResultItem> executeThread(List<List<ChecklistItem>> checklistItemsList) {
+    /**
+     * execute a list of list of items, each list of items create a thread to execute
+     *
+     * @param checklistItemsList list of list items
+     * @return list of result item, each item present of result of execution of each
+     * checklist item
+     */
+    private List<ResultItem> executeListItemList(List<List<ChecklistItem>> checklistItemsList) {
         List<ResultItem> resultItemList = new ArrayList<>();
         ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -65,14 +85,16 @@ public class ExecuteServiceImpl implements ExecuteService {
         ) {
             Thread thread = new Thread(() -> {
                 ChecklistItem standardItem = checklistItems.get(0);
-                ExecuteHandle executeHandle = null;
+                HandleExecution handleExecution = null;
                 ServerInfo serverInfo = standardItem.getServer();
+                // init executor base on type of check
                 if (standardItem.getTypeCheck() == CheckType.SERVER_CHECK) {
-                    executeHandle = new SshExecute();
-                } else if (standardItem.getTypeCheck() == CheckType.API_CHECK) {
-                    executeHandle = new RestApiExecute();
+                    handleExecution = new SshExecution();
+                } else if (standardItem.getTypeCheck() == CheckType.API_BOOLEAN_CHECK || standardItem.getTypeCheck() == CheckType.API_DATA_CHECK) {
+                    handleExecution = new RestApiExecution();
                 }
-                List<ResultItem> resultItemListExecuted = executeHandle.handle(serverInfo, checklistItems);
+
+                List<ResultItem> resultItemListExecuted = handleExecution.handle(serverInfo, checklistItems);
                 synchronized (resultItemList) {
                     if (resultItemListExecuted != null)
                         resultItemList.addAll(resultItemListExecuted);

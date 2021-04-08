@@ -11,6 +11,11 @@ import viettel.huannt14.checklist.service.ChecklistItemService;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of ChecklistItemService
+ *
+ * @author huannt14
+ */
 @Service
 public class ChecklistItemServiceImpl implements ChecklistItemService {
 
@@ -19,6 +24,12 @@ public class ChecklistItemServiceImpl implements ChecklistItemService {
     @Autowired
     private ChecklistItemRepo checklistItemRepo;
 
+    /**
+     * save a checklist item on database
+     *
+     * @param checklistItem checklist item needed to save
+     * @return stored item
+     */
     @Override
     public ChecklistItem save(ChecklistItem checklistItem) {
         try{
@@ -29,6 +40,11 @@ public class ChecklistItemServiceImpl implements ChecklistItemService {
         }
     }
 
+    /**
+     * delete a checklist item by id's checklist item
+     * @param id id's checklist item
+     * @return true if deleted, otherwise return false
+     */
     @Override
     public Boolean deleteById(Integer id) {
         try{
@@ -40,8 +56,13 @@ public class ChecklistItemServiceImpl implements ChecklistItemService {
         }
     }
 
+    /**
+     * find all checklist items on db
+     *
+     * @return a list has all checklist items
+     */
     @Override
-    public List<ChecklistItem> getAll() {
+    public List<ChecklistItem> findAll() {
         try{
             return checklistItemRepo.findAll();
         }catch (Exception ex){
@@ -50,6 +71,11 @@ public class ChecklistItemServiceImpl implements ChecklistItemService {
         }
     }
 
+    /**
+     * find a checklist item by id's checklist item
+     * @param id id's checklist item
+     * @return a Optional of checklist item
+     */
     @Override
     public Optional<ChecklistItem> findById(Integer id) {
         try{
@@ -60,6 +86,12 @@ public class ChecklistItemServiceImpl implements ChecklistItemService {
         }
     }
 
+    /**
+     * find checklist items by id's server
+     *
+     * @param serverId id's server
+     * @return a list has satisfied checklist items
+     */
     @Override
     public List<ChecklistItem> findByServerId(Integer serverId) {
         try{

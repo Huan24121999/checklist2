@@ -10,6 +10,11 @@ import viettel.huannt14.checklist.service.ServerInfoService;
 
 import java.util.List;
 
+/**
+ * Implementation of ServerInfoService
+ *
+ * @author huannt14
+ */
 @Service
 public class ServerInfoServiceImpl implements ServerInfoService {
 
@@ -18,16 +23,12 @@ public class ServerInfoServiceImpl implements ServerInfoService {
     @Autowired
     private ServerInfoRepo serverInfoRepo;
 
-    @Override
-    public List<ServerInfo> getAll() {
-        try{
-            return serverInfoRepo.findAll();
-        }catch (Exception ex){
-            logger.error(ex.getMessage());
-            return null;
-        }
-    }
-
+    /**
+     * delete a server by id's server
+     *
+     * @param serverId id's server
+     * @return true if deleted, otherwise return false
+     */
     @Override
     public Boolean deleteById(Integer serverId) {
         try{
@@ -39,10 +40,31 @@ public class ServerInfoServiceImpl implements ServerInfoService {
         }
     }
 
+    /**
+     * save a server to db
+     *
+     * @param serverInfo server needed to save
+     * @return stored server
+     */
     @Override
     public ServerInfo save(ServerInfo serverInfo) {
         try{
             return serverInfoRepo.save(serverInfo);
+        }catch (Exception ex){
+            logger.error(ex.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * find all servers
+     *
+     * @return list of servers
+     */
+    @Override
+    public List<ServerInfo> findAll() {
+        try{
+            return serverInfoRepo.findAll();
         }catch (Exception ex){
             logger.error(ex.getMessage());
             return null;

@@ -10,6 +10,11 @@ import viettel.huannt14.checklist.service.ChecklistGroupService;
 
 import java.util.List;
 
+/**
+ * Implementation of ChecklistGroupService
+ *
+ * @author huannt14
+ */
 @Service
 public class ChecklistGroupServiceImpl implements ChecklistGroupService {
 
@@ -18,6 +23,12 @@ public class ChecklistGroupServiceImpl implements ChecklistGroupService {
     @Autowired
     private ChecklistGroupRepo checklistGroupRepo;
 
+    /**
+     * save a Group to database
+     *
+     * @param checklistGroup Group needed to store
+     * @return stored checklist Group
+     */
     @Override
     public ChecklistGroup save(ChecklistGroup checklistGroup) {
         try{
@@ -28,6 +39,12 @@ public class ChecklistGroupServiceImpl implements ChecklistGroupService {
         }
     }
 
+    /**
+     * delete a Group by Id's Group
+     *
+     * @param id id's group
+     * @return true if deleted, otherwise: false
+     */
     @Override
     public Boolean deleteById(Integer id) {
         try{
@@ -39,8 +56,13 @@ public class ChecklistGroupServiceImpl implements ChecklistGroupService {
         }
     }
 
+    /**
+     * find all Groups
+     *
+     * @return a list has all groups
+     */
     @Override
-    public List<ChecklistGroup> getAll() {
+    public List<ChecklistGroup> findAll() {
         try{
             return checklistGroupRepo.findAll();
         }catch (Exception ex){

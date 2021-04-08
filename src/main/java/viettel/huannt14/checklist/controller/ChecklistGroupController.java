@@ -9,6 +9,11 @@ import viettel.huannt14.checklist.service.ChecklistGroupService;
 
 import java.util.Optional;
 
+/**
+ * controller to handle http request regarding to Checklist Group
+ *
+ * @author huannt14
+ */
 @RestController
 @RequestMapping("/api/v1/private/checklist-group")
 public class ChecklistGroupController {
@@ -16,6 +21,12 @@ public class ChecklistGroupController {
     @Autowired
     private ChecklistGroupService checklistGroupService;
 
+    /**
+     * upload new checklistGroup
+     *
+     * @param checklistGroup checklist group needed to upload
+     * @return saved checklist group
+     */
     @PostMapping("/upload")
     private ResponseEntity<JsonResult> upload(@RequestBody ChecklistGroup checklistGroup){
         return Optional.ofNullable(checklistGroupService.save(checklistGroup))
@@ -25,6 +36,12 @@ public class ChecklistGroupController {
                 .orElse(JsonResult.saveError("ChecklistGroup"));
     }
 
+    /**
+     * update a checklist group
+     *
+     * @param checklistGroup checklist group needed to update
+     * @return updated checklist group
+     */
     @PutMapping("/update")
     private ResponseEntity<JsonResult> update(@RequestBody ChecklistGroup checklistGroup){
         return Optional.ofNullable(checklistGroupService.save(checklistGroup))
@@ -34,6 +51,11 @@ public class ChecklistGroupController {
                 .orElse(JsonResult.saveError("ChecklistGroup"));
     }
 
+    /**
+     * delete a checklist group by id
+     * @param id id's checklist group
+     * @return deleted= true/false
+     */
     @DeleteMapping("/delete")
     private ResponseEntity<JsonResult> deleteById(@RequestParam(name = "id") Integer id){
         Boolean deleted=checklistGroupService.deleteById(id);
@@ -42,9 +64,13 @@ public class ChecklistGroupController {
         return JsonResult.saveError("ChecklistGroup");
     }
 
+    /**
+     * find all checklist groups
+     * @return a list has all checklist groups
+     */
     @GetMapping("/find-all")
     private ResponseEntity<JsonResult> getAll(){
-        return Optional.ofNullable(checklistGroupService.getAll())
+        return Optional.ofNullable(checklistGroupService.findAll())
                 .map(checklistGroups -> {
                     return JsonResult.found(checklistGroups);
                 })

@@ -8,6 +8,11 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Information of Server
+ *
+ * @author huannt14
+ */
 @Entity
 @Data
 @AllArgsConstructor
